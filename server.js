@@ -19,22 +19,28 @@ app.post('/cart', (req, res) => {
     res.send(item)
 })
 
-/* app.put('/cart/:id', (req, res) => {
-    const cartId = req.params.id
+app.put('/cart/:id', (req, res) => {
+    const cartId = parseInt(req.params.id)
 
-    const item = cart.find(item => item.id === parseInt(cartId))
+    let item = cart.find(item => item.id === cartId)
 
     if( !item) {
         res.status(404).send(`We could not find item with id ${cartId}`)
     } else {
         const { id, title, price } = req.body
-        const newItem = {...item, id, title, price }
 
-        const newCart = [...cart, ]
+        const indexInArray = cart.findIndex(item => item.id === cartId)
 
+        item.id = id ? id : item.id
+        item.title = title ? title : item.title
+        item.price = price ? price : item.price
+
+        cart[indexInArray] = item
+
+        res.send(cart)
     }
 
-}) */
+})
 
 app.delete('/cart/:id', (req, res) => {
     let itemId = parseInt(req.params.id)
